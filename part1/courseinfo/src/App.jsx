@@ -1,51 +1,40 @@
+import Header from './components/Header'
+import Content from './components/Content'
+import Total from "./components/Total";
+
 const App = () => {
-    const Header = ({ course }) => {
-        return (
-            <h1>{course}</h1>
-        );
-    };
-    const Part = ({name, exercises }) => {
-        return(
-            <p>{name} {exercises}</p>
-        );
-    };
-    const Content = ({part1, exercises1, part2, exercises2, part3, exercises3}) => {
-        return(
-            <div>
-                <Part name={part1} exercises={exercises1} />
-                <Part name={part2} exercises={exercises2} />
-                <Part name={part3} exercises={exercises3} />
-            </div>
-        );
-    };
-    const Total = ({ exercises1, exercises2, exercises3 }) => {
-        return (
-            <p>
-                Number of exercises {exercises1 + exercises2 + exercises3}
-            </p>
-        );
-    };
+
     const course = 'Half Stack application development'
-    const part1 = 'Fundamentals of React'
-    const exercises1 = 10
-    const part2 = 'Using props to pass data'
-    const exercises2 = 7
-    const part3 = 'State of a component'
-    const exercises3 = 14
+    const parts = [
+        {
+            name: 'Fundamentals of React',
+            exercises: 10
+        },
+        {
+            name: 'Using props to pass data',
+            exercises: 7
+        },
+        {
+            name: 'State of a component',
+            exercises: 14
+        }
+    ]
 
     return (
         <div>
             <Header course={course} />
             <Content
-                part1={part1} exercises1={exercises1}
-                part2={part2} exercises2={exercises2}
-                part3={part3} exercises3={exercises3}
+                part1={parts[0].name} exercises1={parts[0].exercises}
+                part2={parts[1].name} exercises2={parts[1].exercises}
+                part3={parts[2].name} exercises3={parts[2].exercises}
             />
             <Total
-                exercises1={exercises1} exercises2={exercises2} exercises3={exercises3}
+                exercises1={parts[0].exercises} exercises2={parts[1].exercises} exercises3={parts[2].exercises}
             />
         </div>
     )
 }
+
+
 
 export default App
