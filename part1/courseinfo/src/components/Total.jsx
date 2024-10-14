@@ -1,8 +1,12 @@
-const Total = ({ exercises1, exercises2, exercises3 }) => {
+const Total = ({ parts }) => {
+    let totalExercises = 0;
+
+    for (let i = 0; i < parts.length; i++){
+        totalExercises += parts[i].exercises;
+    }
+
     return (
-        <p>
-            Number of exercises {exercises1 + exercises2 + exercises3}
-        </p>
+        <p>Total number of exercises {totalExercises}</p>
     );
 };
 
