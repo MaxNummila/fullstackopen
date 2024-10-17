@@ -16,6 +16,10 @@ const StatisticsDisplayer = ({ name, amount }) => (
     <p>{name} {amount}</p>
 );
 
+const Statistics = (props) => {
+
+}
+
 const App = () => {
     // save clicks of each button to its own state
     const [good, setGood] = useState(0)
