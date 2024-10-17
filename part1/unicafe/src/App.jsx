@@ -64,7 +64,7 @@ const App = () => {
     let statisticsDisplay;
 
     const calculateAverage = (updatedGood, updatedNeutral, updatedBad) => {
-        const totalScore = (updatedGood * 1) + (updatedNeutral * 0) + (updatedBad * -1);
+        const totalScore = (updatedGood * 1) + (0) + (updatedBad * -1);
         const totalResponses = updatedGood + updatedNeutral + updatedBad;
         if (totalResponses === 0) {
             return 0;
