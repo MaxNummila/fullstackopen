@@ -1,5 +1,18 @@
 import { useState } from 'react'
 
+//Takes a function handleClick and a text as parameters and creates a button with the functionality of the function and the name of the text
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+      {text}
+  </button>
+)
+
+function getRandomInt(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -12,11 +25,18 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
    
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(getRandomInt(0, anecdotes.length))
+
+  const handleAnecdoteClick = () => {
+    const randomIndex = getRandomInt(0, anecdotes.length);
+    setSelected(randomIndex);
+  }
 
   return (
     <div>
       {anecdotes[selected]}
+      <br/>
+      <Button handleClick={handleAnecdoteClick} text='New anecdote'/>
     </div>
   )
 }
