@@ -1,4 +1,4 @@
-const Part = ({ part }) => {
+/*const Part = ({ part }) => {
     return <p>{part.name} {part.exercises}</p>
 }
 
@@ -15,4 +15,4 @@ const Content = ({ parts }) => {
     )
 }
 
-export default Content
+export default Content*/
