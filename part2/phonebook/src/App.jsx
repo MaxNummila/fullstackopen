@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import Person from './components/Person'
+import Persons from './components/Persons.jsx'
+import Filter from './components/Filter'
+import PersonForm from "./components/PersonForm.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newPerson, setNewPerson] = useState('')
   const [newNumber, setNewNumber] = useState('')
+	const [filter, setFilter] = useState('')
   
   const addPerson = (event) => {
     event.preventDefault()
@@ -31,32 +34,30 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleFilterChange = (event) => {
+		setFilter(event.target.value)
+  }
+
+	const personsToShow = persons.filter(person =>
+		person.name.toLowerCase().includes(filter.toLowerCase())
+	)
+
   return (
     <div>
+
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-            value={newPerson} 
-            onChange={handlePersonChange}
-          />
-        </div>
-        <div>
-          number: <input
-            value={newNumber}
-            onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+        <Filter filter={filter} handleFilterChange={handleFilterChange} />
+
+      <h2>add a new</h2>
+      <PersonForm
+        addPerson={addPerson}
+        newPerson={newPerson}
+        handlePersonChange={handlePersonChange}
+        newNumber={newNumber}
+        handleNumberchange={handleNumberChange}
+      />
       <h2>Numbers</h2>
-      <ul>
-        {persons.map(person => (
-          <Person key={person.name} person={person} />
-        ))}
-      </ul>
+      <Persons personsToShow={personsToShow} />
     </div>
   )
 }
