@@ -9,12 +9,10 @@ const App = () => {
 
 	useEffect(() => {
 		console.log('effect')
-		axios
-			.get('http://localhost:3001/notes')
-			.then(response => {
-				console.log('promise fulfilled')
-				setNotes(response.data)
-			})
+		axios.get('http://localhost:3001/notes').then((response) => {
+			console.log('promise fulfilled')
+			setNotes(response.data)
+		})
 	}, [])
 	console.log('render', notes.length, 'notes')
 
@@ -22,9 +20,10 @@ const App = () => {
 		event.preventDefault()
 		const noteObject = {
 			content: newNote,
-			important: Math.random() < 0.5,
+			important: Math.random() > 0.5,
 			id: String(notes.length + 1),
 		}
+
 		setNotes(notes.concat(noteObject))
 		setNewNote('')
 	}
@@ -33,7 +32,7 @@ const App = () => {
 		setNewNote(event.target.value)
 	}
 
-	const notesToShow = showAll ? notes : notes.filter(note => note.important)
+	const notesToShow = showAll ? notes : notes.filter((note) => note.important)
 
 	return (
 		<div>
@@ -44,16 +43,13 @@ const App = () => {
 				</button>
 			</div>
 			<ul>
-				{notesToShow.map(note => (
+				{notesToShow.map((note) => (
 					<Note key={note.id} note={note} />
 				))}
 			</ul>
 			<form onSubmit={addNote}>
-				<input
-					value={newNote}
-					onChange={handleNoteChange}
-				/>
-				<button type='submit'>save</button>
+				<input value={newNote} onChange={handleNoteChange} />
+				<button type="submit">save</button>
 			</form>
 		</div>
 	)
