@@ -2,22 +2,36 @@ import { useState, useEffect } from 'react'
 import Persons from './components/Persons.jsx'
 import Filter from './components/Filter'
 import PersonForm from "./components/PersonForm.jsx";
-import axios from 'axios'
+import personService from "./services/persons.js";
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newPerson, setNewPerson] = useState('')
   const [newNumber, setNewNumber] = useState('')
-	const [filter, setFilter] = useState('')
+    const [filter, setFilter] = useState('')
+
 
 	useEffect(() => {
-		console.log('effect')
-		axios.get('http://localhost:3001/persons').then((response) => {
-			console.log('promise fulfilled')
-			setPersons(response.data)
-		})
+		personService
+            .getAll()
+            .then(initialPersons => {
+                setPersons(initialPersons)
+            })
 	}, [])
-	console.log('render', persons.length, 'persons')
+
+    const deleteButton = id => {
+        const person = persons.find(p => p.id === id)
+
+        personService
+            .deletePerson(id)
+            .then(() => setPersons(prev => prev.filter(p => p.id !== id)))
+            .catch(error => {
+                alert(
+                    `the person '${person.name}' was already deleted from server`
+                )
+                setPersons(prev => prev.filter(p => p.id !== id))
+            })
+    }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -28,29 +42,37 @@ const App = () => {
     const personObject = {
       name: newPerson,
       number: newNumber,
-      id: String(persons.length + 1),
     }
-  
-    setPersons(persons.concat(personObject))
-    setNewPerson('')
-    setNewNumber('')
+
+      personService
+          .create(personObject)
+          .then(returnedPerson => {
+              setPersons(persons.concat(returnedPerson))
+              setNewPerson('')
+              setNewNumber('')
+          })
   }
+
 
   const handlePersonChange = (event) => {
     setNewPerson(event.target.value)
   }
 
+
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
+
 
   const handleFilterChange = (event) => {
 		setFilter(event.target.value)
   }
 
+
 	const personsToShow = persons.filter(person =>
 		person.name.toLowerCase().includes(filter.toLowerCase())
 	)
+
 
   return (
     <div>
@@ -58,7 +80,7 @@ const App = () => {
       <h2>Phonebook</h2>
         <Filter filter={filter} handleFilterChange={handleFilterChange} />
 
-      <h2>add a new</h2>
+      <h2>Add a new</h2>
       <PersonForm
         addPerson={addPerson}
         newPerson={newPerson}
@@ -67,9 +89,10 @@ const App = () => {
         handleNumberchange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} deleteButton={deleteButton} />
     </div>
   )
 }
+
 
 export default App
